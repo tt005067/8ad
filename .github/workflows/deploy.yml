@@ -12,19 +12,21 @@ jobs:
     environment: testing
     runs-on: ubuntu-latest
     # container: node:16 #? we gave this image name from dockerHub  or :
-    container: # ? with this way we can set some configuration
-      image: node:16
-      #env: # ? this env related to the image container and we can know about them from image page in the docker hub
+    # container: # ? with this way we can set some configuration
+    #   image: node:16
+    #env: # ? this env related to the image container and we can know about them from image page in the docker hub
 
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
     services: # ?  add container service
       mongodb: #? here we sould set the service name ,it could be anything and we can have alot of service
         image: mongo #? comes from docker hub
+        ports:
+          - 27017:27017 ##internal port should be forwarded to that port on the runner machine.
         env: #? comes from docker hub
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example #? as this is for test , no matter to be easy to guess password
@@ -66,3 +68,5 @@ jobs:
 #!  you don't have to run your job in a container just to add a extra service container.You can use service containers with the jobs that are running in containers themselves but you can also use service containers in conjunction with jobs that run directly on the runner machine.
 
 ## If your Job does run in a container,as it does here,then connecting to container services,is super simple because GitHub Actions will automatically create a networking environment,where you can use the label of your service container,as a connection address.so just need pass mongodb(here) into MONGODB CLUSTER ADDRESS.And this only works if your Job runs in a container,as my Job does here.
+
+#| but what if our job does not run on the container?
