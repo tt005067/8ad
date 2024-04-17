@@ -11,6 +11,11 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    # container: node:16 #? we gave this image name from dockerHub  or :
+    container: # ? with this way we can set some configuration
+      image: node:16
+      #env: # ? this env related to the image container and we can know about them from image page in the docker hub
+
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: gittest.ctyozks.mongodb.net
