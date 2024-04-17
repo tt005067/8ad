@@ -17,17 +17,17 @@ jobs:
       #env: # ? this env related to the image container and we can know about them from image page in the docker hub
 
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: gittest.ctyozks.mongodb.net
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: mongodb
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
     services: # ?  add container service
       mongodb: #? here we sould set the service name ,it could be anything and we can have alot of service
         image: mongo #? comes from docker hub
-        env:
+        env: #? comes from docker hub
           MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
+          MONGO_INITDB_ROOT_PASSWORD: example #? as this is for test , no matter to be easy to guess password
 
     steps:
       - name: Get Code
@@ -64,3 +64,5 @@ jobs:
 #* job steps can communicate with service containers (and the services exposed by them)
 
 #!  you don't have to run your job in a container just to add a extra service container.You can use service containers with the jobs that are running in containers themselves but you can also use service containers in conjunction with jobs that run directly on the runner machine.
+
+## If your Job does run in a container,as it does here,then connecting to container services,is super simple because GitHub Actions will automatically create a networking environment,where you can use the label of your service container,as a connection address.so just need pass mongodb(here) into MONGODB CLUSTER ADDRESS.And this only works if your Job runs in a container,as my Job does here.
